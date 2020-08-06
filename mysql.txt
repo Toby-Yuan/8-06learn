@@ -1,0 +1,70 @@
+// mysql語法
+mysql -uroot -p
+--> -u : user, -p : password
+
+// 檢查用的欄位, check(true/false)
+ALTER table t3
+    ADD CONSTRAINT chk_data check (data >= 0)
+--> 不通過的資料不會被新增進資料表
+--> 八版才可以用！！！
+
+Point : 一對多時，設條件是要在多的那邊
+
+// Point
+CREATE TABLE customers(
+    customerId int primary key,
+    companyName varchar(20) 
+);
+
+INSERT into  customers VALUES
+    (1,'AAA'),(2,'BBB'),(3,'CCC');
+
+CERATE TABLE orders(
+    orderId int primary key,
+    customerId int,
+);
+
+INSERT into  orders VALUES
+    (1,1),(2,2),(3,3);
+
+AlTER TABLE orders 
+    ADD CONSTRAINT fk_customers_orders
+        foreign key (customerId) references customers (customerId)
+            on UPDATE cascade
+            on DELETE cascade;
+--> 最後兩句表示，customers update 和 delete 時也一起更動orders裡的編號
+
+INSERT into  orders VALUES (4,99);
+--> 失敗！
+
+INSERT into  orders VALUES (4,3);
+
+UPDATE customers SET customerId = 100 WHERE  customerId = 1;
+--> orders的也會跟著變
+
+DELETE FROM customers WHERE customerId = 100;
+--> orders的資料也會被刪掉
+
+Alert : 一對多時，要刪除一的資料時，要先處理多那一邊的資料！！！
+
+// unique : 獨一無二
+ALTER table customers ADD CONSTRAINT uc UNIQUE (companyName)
+INSERT into customers VALUES (4,'AAA')
+--> 失敗
+
+--> 建立時用什麼方法，刪除時就要一樣
+ALTER table customers DROP INDEX uc;
+
+--> 在其他的伺服器上面會是:
+ALTER table customers DROP CONSTRAINT uc;
+
+// UNIQUE INDEX
+CREATE UNIQUE INDEX idx_company ON customers(companyName)
+INSERT into customers VALUES (4,'AAA')
+--> 失敗
+
+ALTER index idx_company ON customers
+
+// 尋找位置
+show variables like 'data%'
+show databases
