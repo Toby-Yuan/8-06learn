@@ -100,3 +100,62 @@ show processlist
 
 // 移除練線
 kill 代號
+
+// 檢視資料結構
+show databases;
+show create database northwind
+--> 比較像是查看創造時的語法
+
+show tables
+describe customers = desc customers
+show create table customers
+show columns from customers
+
+// 網管(以下)
+// 選擇資料庫
+use mysql;
+
+// 顯示全部資料表
+show table;
+
+// 給予一個使用者權限
+grant usage on *.* to carl@'%' identified by 'pa$$w0rd';
+--> *.* : 所有資料庫.所有資料表
+--> @'%' : 不管從哪裡登入(不打就是這個)
+--> 帳號有分大小寫！！！(carl!=Carl)
+
+// 新增一個使用者
+create user jeter identified by 'pa$$w0rd';
+
+// 查看各使用者的權限以及權域
+select user, host, password from user;
+select host, db, user, select_priv, insert_priv, update_priv from db;
+select host, db, user, table_name, table_priv from tables_priv;
+
+// 重設密碼
+set password for carl = password('Pa$$w0rd');
+
+// 試試看
+select customerID, companyName from northwind.customers;
+--> 失敗，因為沒有權限
+
+// 給予select權限
+grant select on northwind.* to carl;
+
+// 再試試
+select customerID, companyName from northwind.customers;
+--> 成功
+
+// 換一個
+update customers set companyName = 'Lab Company' where customerID = 'ALFKI';
+--> 失敗
+
+// 給予update權限(特定的資料表)
+grant update on northwind.customers to carl;
+
+// 再來
+update customers set companyName = 'Lab Company' where customerID = 'ALFKI';
+--> 成功
+
+// 回收權限
+revoke update on northwind.customers from carl;
