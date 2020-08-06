@@ -116,7 +116,7 @@ show columns from customers
 use mysql;
 
 // 顯示全部資料表
-show table;
+show tables;
 
 // 給予一個使用者權限
 grant usage on *.* to carl@'%' identified by 'pa$$w0rd';
