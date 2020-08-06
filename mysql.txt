@@ -81,6 +81,6 @@ CREATE TABLE lab(
 CREATE TABLE lab(
     id int ...
 ) engine = MERGE union = (t1, t2) insert_method = first;
---> 在lab中新增資料會讓第一個資料表t1也新增(只能選第一個或最後一個) 
+--> 在lab中新增資料會讓第一個資料表t1也新增(只能選第一個或最後一個或都不要) 
 
---> InnDB : 只有.frm, 但是可以用ROLLBACK
+--> InnDB : 只有.frm, 但是可以用ROLLBACK, 因為會做log紀錄
