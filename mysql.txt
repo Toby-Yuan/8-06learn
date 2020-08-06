@@ -89,4 +89,14 @@ CREATE TABLE lab(
 
 --> Federated : 影子資料表
 
-// 
+// 設定同時最大連線量
+set global max_connections = 10
+
+// 了解現在連線狀況
+status
+
+// 網管查看現在連線人
+show processlist
+
+// 移除練線
+kill 代號
