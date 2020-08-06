@@ -19,7 +19,7 @@ CREATE TABLE customers(
 INSERT into  customers VALUES
     (1,'AAA'),(2,'BBB'),(3,'CCC');
 
-CERATE TABLE orders(
+CREATE TABLE orders(
     orderId int primary key,
     customerId int,
 );
@@ -68,3 +68,19 @@ ALTER index idx_company ON customers
 // 尋找位置
 show variables like 'data%'
 show databases
+
+// 在OS中用終端機開啟mysql要打完整
+/Applications/MAMP/Library/bin/mysql -uroot -p
+
+// 資料表類型
+CREATE TABLE lab(
+    id int ...
+) engine = MyISAM;
+
+--> MyISAM : 有.frm (結構) .myd (資料) .myi (索引), 可以用MERGE(使這個表讀到連接的表)
+CREATE TABLE lab(
+    id int ...
+) engine = MERGE union = (t1, t2) insert_method = first;
+--> 在lab中新增資料會讓第一個資料表t1也新增(只能選第一個或最後一個) 
+
+--> InnDB : 只有.frm, 但是可以用ROLLBACK
